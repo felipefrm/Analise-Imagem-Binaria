@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <sys/resource.h>
 #include "entradaSaida.h"
 
 Arquivos* argumentosEntrada(int argc, char* argv[]){
@@ -115,6 +116,18 @@ void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanho
   }
 }
 
+void contaTempoProcessador(double *utime, double *stime){
+  struct rusage resources;
+  getrusage(RUSAGE_SELF, &resources);
+  *utime = (double) resources.ru_utime.tv_sec + 1.e-6 * (double) resources.ru_utime.tv_usec;
+  *stime = (double) resources.ru_stime.tv_sec + 1.e-6 * (double) resources.ru_stime.tv_usec;
+}
+
+void imprimeTempo(double user_time, double system_time, FILE* arq){
+  fprintf(arq, "Tempo de execução:\n\n");
+  fprintf(arq, "%fs (tempo de usuário) + %fs (tempo de sistema) = %fs (tempo total)\n\n", user_time, system_time, user_time+system_time);
+}
+
 void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz){
 
   for (int i=0; i<tamanhoMatriz; i++)
@@ -124,4 +137,28 @@ void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz){
   fclose(arq->saida);
   // fclose(arq->entrada);
   free(arq);
+}
+
+int checkSubMatrizForcaBruta(int **mat, int i, int j, int range){
+  for (int lin = i; lin < i + range; lin++){
+    for (int col = j; col < j + range; col++){
+      // (*clock)++;
+      // printf("contador: %d\n", *clock);
+      if (mat[lin][col] == 0){
+        return 0;
+      }
+    }
+  }
+  return 1;
+}
+
+int checkSubMatrizGuloso(int **mat, int y, int x, int maior){
+  int yB,xB;
+  for (yB = 0; yB < maior; yB++) {
+    for (xB = 0; xB < maior; xB++){
+        if (!mat[yB+y][xB+x])
+          return 0;
+    }
+  }
+  return 1;
 }
