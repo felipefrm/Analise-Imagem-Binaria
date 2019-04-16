@@ -5,5 +5,7 @@
 int forcaBruta(int **mat, int tamanhoMatriz, Ponto* inicial);
 int submatrizValida(int i, int j, int **mat, int *clock, int maior, int tamanhoMatriz);
 int guloso(int **mat, int tamanhoMatriz, Ponto* inicial);
+int dinamica(int **matriz,int tamanhoMatriz,Ponto* inicial);
+int minimo(int x, int y, int z);
 
 #endif

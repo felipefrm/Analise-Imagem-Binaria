@@ -29,6 +29,11 @@ void main(int argc, char *argv[]){
     imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
     imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
+    contaTempoProcessador(&utime_ant, &stime_ant);
+    maior = dinamica(mat, tamanhoMatriz, &inicial);
+    contaTempoProcessador(&utime_pos, &stime_pos);
+    imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
+    imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
     liberaPonteiros(arq, mat, tamanhoMatriz);
   }
