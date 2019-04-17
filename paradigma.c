@@ -65,8 +65,13 @@ int guloso(int **mat, int tamanhoMatriz, Ponto* inicial){
     }
   }
 }
-
-int dinamica(int **matriz,int tamanhoMatriz,Ponto* inicial){
+int minimo(int x, int y){
+  if(x < y)
+    return x;
+  else
+  return y;
+}
+int dinamica(int **matriz, int tamanhoMatriz, Ponto* inicial){
   int i,j,maior = 0;
   int matAux[tamanhoMatriz+1][tamanhoMatriz+1];
   for(i=0;i<tamanhoMatriz+1;i++){
@@ -79,7 +84,7 @@ int dinamica(int **matriz,int tamanhoMatriz,Ponto* inicial){
       if(!matriz[i-1][j-1])
           matAux[i][j] = 0;
       else{
-        matAux[i][j] = 1 + minimo(matAux[i-1][j],matAux[i][j-1],matAux[i-1][j-1]);
+        matAux[i][j] = 1 + minimo(matAux[i-1][j], minimo(matAux[i][j-1],matAux[i-1][j-1]));
         if(matAux[i][j] > maior){
           maior = matAux[i][j];
           inicial->x = i-maior;
@@ -89,13 +94,4 @@ int dinamica(int **matriz,int tamanhoMatriz,Ponto* inicial){
     }
   }
   return maior;
-}
-int minimo(int x, int y, int z){
-  if(x < y && x < z)
-    return x;
-  if(y < x && y < z)
-    return y;
-  if(z < x && z < y)
-    return z;
-  return x;
 }
