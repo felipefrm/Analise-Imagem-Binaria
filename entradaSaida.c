@@ -40,13 +40,16 @@ Arquivos* argumentosEntrada(int argc, char* argv[]){
 int calculaTamanhoMatriz(FILE* arq){
 
   int tamanhoMatriz = 0;
+  char c;
 
-  while(!feof(arq))
-    if (fgetc(arq) == '\n')
+  while((c = fgetc(arq)) != '\n'){
+
+    if (c == '1' || c == '0')
       tamanhoMatriz++;
 
+  }
   rewind(arq);
-
+  // printf("tamanho é esse ai: %d\n", tamanhoMatriz);
   return tamanhoMatriz;
 }
 
@@ -77,9 +80,21 @@ int** leituraArqEntrada(FILE* arq, int tamanhoMatriz){
       col++;
     }
   }
-
   return mat;
 }
+
+int checkValoresMatriz(int **mat, int tamanhoMatriz){
+  for (int i=0; i<tamanhoMatriz; i++){
+    for (int j=0; j<tamanhoMatriz; j++){
+      if (mat[i][j] != 1 && mat[i][j] != 0){
+        fprintf(stderr, "Matriz inválida!\n");
+        return 0;
+      }
+    }
+  }
+  return 1;
+}
+
 
 void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz){
 
@@ -114,6 +129,7 @@ void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanho
     }
     fprintf(arq, "\n");
   }
+  fprintf(arq, "\n");
 }
 
 void contaTempoProcessador(double *utime, double *stime){
@@ -140,14 +156,15 @@ void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz){
 }
 
 int checkSubMatrizForcaBruta(int **mat, int i, int j, int range){
+  // printf("%d ", mat[1][1]);
   for (int lin = i; lin < i + range; lin++){
     for (int col = j; col < j + range; col++){
-      // (*clock)++;
-      // printf("contador: %d\n", *clock);
       if (mat[lin][col] == 0){
+        // printf("achouw");
         return 0;
       }
     }
+    // printf("\n");
   }
   return 1;
 }

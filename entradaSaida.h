@@ -17,6 +17,7 @@ Arquivos* argumentosEntrada(int argc, char* argv[]);
 int calculaTamanhoMatriz(FILE* arq);
 int** alocaMatriz(int tamanhoMatriz);
 int** leituraArqEntrada(FILE* arq, int tamanhoMatriz);
+int checkValoresMatriz(int **mat, int tamanhoMatriz);
 void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz);
 void contaTempoProcessador(double *utime, double *stime);
 void imprimeTempo(double user_time, double system_time, FILE* arq);

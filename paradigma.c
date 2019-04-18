@@ -50,9 +50,9 @@ int submatrizValida(int i, int j, int **mat, int *clock, int maior, int tamanhoM
 }
 
 
-int guloso(int **mat, int tamanhoMatriz, Ponto* inicial){
+int forcaBruta2(int **mat, int tamanhoMatriz, Ponto* inicial){
 
-  for (int maior = tamanhoMatriz; maior > 0; maior--){
+  for (int maior = tamanhoMatriz; maior >= 0; maior--){
     int ContadorAnda = tamanhoMatriz - maior + 1;
     for (int i = 0; i < ContadorAnda; i++){
       for (int j = 0; j < ContadorAnda; j++){
@@ -65,12 +65,16 @@ int guloso(int **mat, int tamanhoMatriz, Ponto* inicial){
     }
   }
 }
+
+
 int minimo(int x, int y){
   if(x < y)
     return x;
   else
   return y;
 }
+
+
 int dinamica(int **matriz, int tamanhoMatriz, Ponto* inicial){
   int i,j,maior = 0;
   int matAux[tamanhoMatriz+1][tamanhoMatriz+1];
@@ -95,3 +99,125 @@ int dinamica(int **matriz, int tamanhoMatriz, Ponto* inicial){
   }
   return maior;
 }
+
+int guloso(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial){
+  int maior = 0, clock = 0, sub_matriz;
+  for (int i=ponto.x; i < ponto.x + tamanhoDiagonal; i++){
+    for (int j=ponto.y; j < ponto.y + tamanhoDiagonal; j++){
+      // printf("%d ", mat[i][j]);
+      if ((sub_matriz = submatrizValida(i, j, mat, &clock, maior, tamanhoDiagonal)) > maior) {
+        maior = sub_matriz;
+        // printf("maior: %d\n", maior);
+        inicial->x = i;
+        inicial->y = j;
+        }
+    }
+    // printf("\n");
+  }
+  // printf("\n%d\n", submatrizValida(1, 1, mat, &clock, maior, tamanhoDiagonal));
+  return maior;
+}
+
+int maiorDiagonal(int i, int j, int **mat, int tamanhoMatriz){
+  int maior = 0;
+  // printf("?");
+  while (i < tamanhoMatriz && j < tamanhoMatriz){
+    // printf("%d", mat[i][j]);
+    if (mat[i][j] == 1)
+      maior++;
+    else
+      break;
+    i++;
+    j++;
+
+  }
+  return maior;
+}
+
+int melhor(int **mat, int tamanhoMatriz, Ponto* ponto){
+  int maior = 0, diagonal;
+  for (int i=0; i<tamanhoMatriz; i++){
+    for (int j=0; j<tamanhoMatriz; j++){
+      // printf("i: %d e j: %d\n", i, j);
+      if ((diagonal = maiorDiagonal(i, j, mat, tamanhoMatriz)) > maior){
+        // printf("d\n", maior);
+        maior = diagonal;
+        ponto->x = i;
+        ponto->y = j;
+      }
+    }
+  }
+  // printf("maior: %d\n", maior);
+  // printf("ponto: %dx%d\n", ponto->x, ponto->y);
+  return maior;
+}
+
+
+
+// int maiorDiagonal(int i, int j, int **mat, int tamanhoMatriz,int *referencia){
+//   int maior = 0,continuidade = 1;
+//   while (i < tamanhoMatriz && j < tamanhoMatriz){
+//
+//     if (mat[i][j] == 1){
+//       maior ++;
+//     i++;
+//     j++;
+//       if(continuidade)
+//         if(*referencia < i){
+//           *referencia = i;
+//         }
+//       else
+//         continuidade = 1;
+//   }else{
+//     continuidade = 0;
+//   }
+//   return maior;
+// }
+//
+// int melhorSolucaoLocal(int **mat, int tamanhoMatriz, Ponto *inicial){
+//   int maiorx=0, maiory=0, ref, diagonal;
+//   for (int i = 0, j = tamanhoMatriz-1; j <= 0; j--){
+//     if (maiorx < (diagonal = maiorDiagonal(i, j, mat,&ref)){
+//       maiorx = diagonal;
+//     }
+//     if (maiory < (diagonal = maiorDiagonal(j, i, mat,&ref)){
+//       maiory = diagonal;
+//     }
+//   }
+//   if (maiorx >= maiory){
+//     // inicial->x = 0;
+//     // inicial->y = j+ref;
+//     return maiorx;
+//   }
+//   else {
+//     // inicial->x = j+ref;
+//     // inicial->y = 0;
+//     return maiory;
+//   }
+// }
+
+
+//
+// int melhorSolucaoLocal(int **mat, int tamanhoMatriz, Ponto *inicial){
+//   int maiorx=0, diagonalx, maiory=0, diagionaly;
+//   for (int i = 0, j = tamanhoMatriz-1; j <= 0; j--){
+//     if (maiorx < (diagonal = maiorDiagonal(i, j, mat)){
+//       maiorx = diagonal;
+//       diagonalx = j;
+//     }
+//     if (maiory < (diagonal = maiorDiagonal(j, i, mat)){
+//       maiory = diagonal;
+//       diagonaly = j;
+//     }
+//   }
+//   if (maiorx >= maiory){
+//     inicial->x = 0;
+//     inicial->y = j;
+//     return maiorx;
+//   }
+//   else {
+//     inicial->x = j;
+//     inicial->y = 0;
+//     return maiory;
+//   }
+// }
