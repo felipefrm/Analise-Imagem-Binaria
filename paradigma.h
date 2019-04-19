@@ -3,7 +3,7 @@
 #define PARADIGMA
 
 int forcaBruta(int **mat, int tamanhoMatriz, Ponto* inicial);
-int submatrizValida(int i, int j, int **mat, int *clock, int maior, int tamanhoMatriz);
+int submatrizPossivel(int i, int j, int **mat, int *clock, int maior, int tamanhoMatriz);
 int forcaBruta2(int **mat, int tamanhoMatriz, Ponto* inicial);
 int dinamica(int **matriz,int tamanhoMatriz,Ponto* inicial);
 int guloso(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial);
@@ -12,7 +12,7 @@ int melhor(int **mat, int tamanhoMatriz, Ponto* ponto);
 // int maiorDiagonal(int i, int j, int **mat, int tamanhoMatriz, int *referencia);
 int melhorSolucaoLocal(int **mat, int tamanhoMatriz, Ponto *inicial);
 int checkSubMatrizForcaBruta(int **mat, int lin, int col, int range);
-int checkSubMatrizGuloso(int **mat, int y, int x, int maior);
-int miniforca(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial);
+int checkSubMatrizGuloso(int **mat, int x, int y, int maior);
+int guloso(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial);
 
 #endif
