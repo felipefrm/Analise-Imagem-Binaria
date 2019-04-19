@@ -26,12 +26,12 @@ void main(int argc, char *argv[]){
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
       imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
-      fprintf(arq->saida, " ----------- FORÇA BRUTA 2 ----------\n\n");
-      contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = forcaBruta2(mat, tamanhoMatriz, &inicial);
-      contaTempoProcessador(&utime_pos, &stime_pos);
-      imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-      imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
+      // fprintf(arq->saida, " ----------- FORÇA BRUTA 2 ----------\n\n");
+      // contaTempoProcessador(&utime_ant, &stime_ant);
+      // maior = forcaBruta2(mat, tamanhoMatriz, &inicial);
+      // contaTempoProcessador(&utime_pos, &stime_pos);
+      // imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
+      // imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
       fprintf(arq->saida, " ----------- DIMAMICO ----------\n\n");
       contaTempoProcessador(&utime_ant, &stime_ant);
@@ -42,7 +42,7 @@ void main(int argc, char *argv[]){
 
       fprintf(arq->saida, " ----------- GULOSO ----------\n\n");
       contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = guloso(mat, melhor(mat, tamanhoMatriz, &ponto), ponto, &inicial);
+      maior = miniforca(mat, melhor(mat, tamanhoMatriz, &ponto), ponto, &inicial);
       contaTempoProcessador(&utime_pos, &stime_pos);
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
       imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);

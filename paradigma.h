@@ -11,4 +11,8 @@ int maiorDiagonal(int i, int j, int **mat, int tamanhoMatriz);
 int melhor(int **mat, int tamanhoMatriz, Ponto* ponto);
 // int maiorDiagonal(int i, int j, int **mat, int tamanhoMatriz, int *referencia);
 int melhorSolucaoLocal(int **mat, int tamanhoMatriz, Ponto *inicial);
+int checkSubMatrizForcaBruta(int **mat, int lin, int col, int range);
+int checkSubMatrizGuloso(int **mat, int y, int x, int maior);
+int miniforca(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial);
+
 #endif

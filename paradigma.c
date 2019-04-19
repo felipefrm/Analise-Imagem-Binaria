@@ -25,8 +25,11 @@ int submatrizValida(int i, int j, int **mat, int *clock, int maior, int tamanhoM
     i_range = range + i;
     j_range = range + j;
 
-    if (i_range > tamanhoMatriz || j_range > tamanhoMatriz)
+    if (i_range > tamanhoMatriz || j_range > tamanhoMatriz){
+      // printf("maior:::: %d\n", maior);
+
       return maior;
+    }
 
     if (!checkSubMatrizForcaBruta(mat, i, j, range)){
       return maior;
@@ -100,13 +103,33 @@ int dinamica(int **matriz, int tamanhoMatriz, Ponto* inicial){
   return maior;
 }
 
+int miniforca(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial){
+
+  for (int maior = tamanhoDiagonal; maior >= 0; maior--){
+    int ContadorAnda = tamanhoDiagonal - maior + 1;
+    for (int i = ponto.x; i <= ContadorAnda; i++){
+      for (int j = ponto.y; j <= ContadorAnda; j++){
+        if (checkSubMatrizGuloso(mat, i, j, maior)){
+          inicial->x = i;
+          inicial->y = j;
+          return maior;
+        }
+      }
+    }
+  }
+}
+
 int guloso(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial){
   int maior = 0, clock = 0, sub_matriz;
   for (int i=ponto.x; i < ponto.x + tamanhoDiagonal; i++){
     for (int j=ponto.y; j < ponto.y + tamanhoDiagonal; j++){
       // printf("%d ", mat[i][j]);
+      printf("maior:::: %d\n", maior);
+
       if ((sub_matriz = submatrizValida(i, j, mat, &clock, maior, tamanhoDiagonal)) > maior) {
+
         maior = sub_matriz;
+        // printf("maior:::: %d\n", maior);
         // printf("maior: %d\n", maior);
         inicial->x = i;
         inicial->y = j;
@@ -119,19 +142,35 @@ int guloso(int **mat, int tamanhoDiagonal, Ponto ponto, Ponto* inicial){
 }
 
 int maiorDiagonal(int i, int j, int **mat, int tamanhoMatriz){
-  int maior = 0;
+  int maior_dprincipal= 0, maior_dsecundaria = 0;
   // printf("?");
   while (i < tamanhoMatriz && j < tamanhoMatriz){
     // printf("%d", mat[i][j]);
     if (mat[i][j] == 1)
-      maior++;
+      maior_dprincipal++;
     else
-      break;
+      break;          // diagonal principal
     i++;
     j++;
 
   }
-  return maior;
+  // i=0;
+  // while (i < tamanhoMatriz && j >= 0){
+  //   if (mat[i][j] == 1)
+  //     maior_dsecundaria++;
+  //   else
+  //     break;          // diagonal secundaria
+  //   i++;
+  //   j--;
+  //
+  // }
+  // if (maior_dprincipal >= maior_dsecundaria){
+  //
+    return maior_dprincipal;
+  // }
+  // else{
+  //   return maior_dsecundaria;
+  // }
 }
 
 int melhor(int **mat, int tamanhoMatriz, Ponto* ponto){
@@ -147,8 +186,8 @@ int melhor(int **mat, int tamanhoMatriz, Ponto* ponto){
       }
     }
   }
-  // printf("maior: %d\n", maior);
-  // printf("ponto: %dx%d\n", ponto->x, ponto->y);
+  printf("maior: %d\n", maior);
+  printf("ponto: %dx%d\n", ponto->x, ponto->y);
   return maior;
 }
 
@@ -221,3 +260,29 @@ int melhor(int **mat, int tamanhoMatriz, Ponto* ponto){
 //     return maiory;
 //   }
 // }
+
+
+int checkSubMatrizForcaBruta(int **mat, int i, int j, int range){
+  // printf("%d ", mat[1][1]);
+  for (int lin = i; lin < i + range; lin++){
+    for (int col = j; col < j + range; col++){
+      if (mat[lin][col] == 0){
+        // printf("achouw");
+        return 0;
+      }
+    }
+    // printf("\n");
+  }
+  return 1;
+}
+
+int checkSubMatrizGuloso(int **mat, int y, int x, int maior){
+  int yB,xB;
+  for (yB = 0; yB < maior; yB++) {
+    for (xB = 0; xB < maior; xB++){
+        if (!mat[yB+y][xB+x])
+          return 0;
+    }
+  }
+  return 1;
+}

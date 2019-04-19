@@ -154,28 +154,3 @@ void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz){
   // fclose(arq->entrada);
   free(arq);
 }
-
-int checkSubMatrizForcaBruta(int **mat, int i, int j, int range){
-  // printf("%d ", mat[1][1]);
-  for (int lin = i; lin < i + range; lin++){
-    for (int col = j; col < j + range; col++){
-      if (mat[lin][col] == 0){
-        // printf("achouw");
-        return 0;
-      }
-    }
-    // printf("\n");
-  }
-  return 1;
-}
-
-int checkSubMatrizGuloso(int **mat, int y, int x, int maior){
-  int yB,xB;
-  for (yB = 0; yB < maior; yB++) {
-    for (xB = 0; xB < maior; xB++){
-        if (!mat[yB+y][xB+x])
-          return 0;
-    }
-  }
-  return 1;
-}

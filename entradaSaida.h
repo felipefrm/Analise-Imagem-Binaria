@@ -22,7 +22,5 @@ void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanho
 void contaTempoProcessador(double *utime, double *stime);
 void imprimeTempo(double user_time, double system_time, FILE* arq);
 void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz);
-int checkSubMatrizForcaBruta(int **mat, int lin, int col, int range);
-int checkSubMatrizGuloso(int **mat, int y, int x, int maior);
 
 #endif
