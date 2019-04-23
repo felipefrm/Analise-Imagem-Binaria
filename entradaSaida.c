@@ -75,7 +75,7 @@ int** leituraArqEntrada(FILE* arq, int tamanhoMatriz){
       lin++;
     }
 
-    if(!(i % 2)){
+    if(!(i % 2)){    // pega só os elementos pares do arquivo (elementos contendo os valores da matriz)
       mat[lin][col] = c - 48; // conversão de char para inteiro
       col++;
     }
@@ -95,11 +95,18 @@ int checkValoresMatriz(int **mat, int tamanhoMatriz){
   return 1;
 }
 
+int verificaArqVazio(FILE* arq){
+  int tamanho_arq;
+  fseek (arq, 0, SEEK_END);               // aponta para o fim do arquivo com fseek()
+  if((tamanho_arq = ftell (arq)) == 0){   // retorna o valor da posição do ponteiro com ftell()
+    fprintf(stderr, "O arquivo de entrada está vazio!\n");
+    return 0;
+  }
+  rewind(arq);   // retorna o ponteiro para o inicio do arquivo, para os proximos
+  return 1;      // procedimentos
+}
 
-void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz){
-
-  fprintf(arq, "Maior: %d\n", maior);
-  fprintf(arq, "Posição: [%d][%d]\n\n", inicial.x, inicial.y);
+void imprimeMatrizCompleta(FILE* arq, int** mat, int tamanhoMatriz){
 
   fprintf(arq, "Matriz original (%dx%d): \n\n", tamanhoMatriz, tamanhoMatriz);
   fprintf(arq, "  ");
@@ -112,23 +119,40 @@ void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanho
       fprintf(arq, "%d ", mat[i][j]);
     fprintf(arq, "\n");
   }
-
-  fprintf(arq, "\n\nMaior sub-matriz encontrada (%dx%d): \n\n", maior, maior);
-
-  fprintf(arq, "  ");
-  for (int i=0; i<tamanhoMatriz; i++)
-    fprintf(arq, "%c ", i+65);
   fprintf(arq, "\n");
-  for (int i=0; i<tamanhoMatriz; i++){
-    fprintf(arq, "%c ", i+65);
-    for (int j=0; j<tamanhoMatriz; j++){
-      if ((i >= inicial.x && i < inicial.x + maior) && (j >= inicial.y && j < inicial.y + maior))
-        fprintf(arq, "%d ", mat[i][j]);
-      else
-        fprintf(arq, "  ");
-    }
-    fprintf(arq, "\n");
+}
+
+void imprimeMaiorSubMatriz(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz, int paradigma){
+
+  switch (paradigma){
+    case 1:
+      fprintf(arq, "----------- ALGORITMO DE FORÇA BRUTA ----------\n\n");
+      break;
+    case 2:
+      fprintf(arq, "----------- ALGORITMO GULOSO ----------\n\n");
+      break;
+    case 3:
+      fprintf(arq, "----------- PROGRAMAÇÃO DINAMICA ----------\n\n");
+      break;
   }
+
+  fprintf(arq, "Maior sub-matriz encontrada (%dx%d): \n", maior, maior);
+  fprintf(arq, "Posição: [%d][%d]\n\n", inicial.x, inicial.y);
+  // 
+  // fprintf(arq, "  ");
+  // for (int i=0; i<tamanhoMatriz; i++)
+  //   fprintf(arq, "%c ", i+65);
+  // fprintf(arq, "\n");
+  // for (int i=0; i<tamanhoMatriz; i++){
+  //   fprintf(arq, "%c ", i+65);
+  //   for (int j=0; j<tamanhoMatriz; j++){
+  //     if ((i >= inicial.x && i < inicial.x + maior) && (j >= inicial.y && j < inicial.y + maior))
+  //       fprintf(arq, "%d ", mat[i][j]);
+  //     else
+  //       fprintf(arq, "  ");
+  //   }
+  //   fprintf(arq, "\n");
+  // }
   fprintf(arq, "\n");
 }
 
@@ -140,17 +164,18 @@ void contaTempoProcessador(double *utime, double *stime){
 }
 
 void imprimeTempo(double user_time, double system_time, FILE* arq){
-  fprintf(arq, "Tempo de execução:\n\n");
+  fprintf(arq, "Tempo de execução:\n");
   fprintf(arq, "%fs (tempo de usuário) + %fs (tempo de sistema) = %fs (tempo total)\n\n", user_time, system_time, user_time+system_time);
 }
 
-void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz){
-
+void liberaMatriz(int** mat, int tamanhoMatriz){
   for (int i=0; i<tamanhoMatriz; i++)
     free(mat[i]);
-
   free(mat);
+}
+
+void liberaArquivos(Arquivos *arq){
+  fclose(arq->entrada);
   fclose(arq->saida);
-  // fclose(arq->entrada);
   free(arq);
 }

@@ -7,47 +7,38 @@
 void main(int argc, char *argv[]){
 
   Arquivos* arq = argumentosEntrada(argc, argv);
-  if (arq->flag){
+  if (arq->flag && verificaArqVazio(arq->entrada)){
     int tamanhoMatriz = calculaTamanhoMatriz(arq->entrada);
     int **mat = leituraArqEntrada(arq->entrada, tamanhoMatriz);
-    fclose(arq->entrada);
 
-    if(checkValoresMatriz(mat, tamanhoMatriz)){
+    if (checkValoresMatriz(mat, tamanhoMatriz)){
 
-      int maior = 0, clock = 0, sub_matriz;
-      Ponto inicial;
-      Ponto ponto;
-
+      int maior = 0, clock = 0;
+      Ponto inicial, elemento;
       double utime_ant, utime_pos, stime_ant, stime_pos;
-      fprintf(arq->saida, " ----------- FORÇA BRUTA ----------\n\n");
+
+      // imprimeMatrizCompleta(arq->saida, mat, tamanhoMatriz);
+
       contaTempoProcessador(&utime_ant, &stime_ant);
       maior = forcaBruta(mat, tamanhoMatriz, &inicial);
       contaTempoProcessador(&utime_pos, &stime_pos);
+      imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 1);
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-      imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
-      fprintf(arq->saida, " ----------- FORÇA BRUTA 2 ----------\n\n");
       contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = forcaBruta2(mat, tamanhoMatriz, &inicial);
+      maior = guloso(mat, MaiorDiagonal(mat, tamanhoMatriz, &elemento), elemento, &inicial);
       contaTempoProcessador(&utime_pos, &stime_pos);
+      imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 2);
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-      imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
-      fprintf(arq->saida, " ----------- DIMAMICO ----------\n\n");
       contaTempoProcessador(&utime_ant, &stime_ant);
       maior = dinamica(mat, tamanhoMatriz, &inicial);
       contaTempoProcessador(&utime_pos, &stime_pos);
+      imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 3);
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-      imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
 
-      fprintf(arq->saida, " ----------- GULOSO ----------\n\n");
-      contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = guloso(mat, melhor(mat, tamanhoMatriz, &ponto), ponto, &inicial);
-      contaTempoProcessador(&utime_pos, &stime_pos);
-      imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-      imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
-
-      liberaPonteiros(arq, mat, tamanhoMatriz);
     }
+    liberaMatriz(mat, tamanhoMatriz);
   }
+  liberaArquivos(arq);
 }

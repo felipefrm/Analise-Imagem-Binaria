@@ -9,7 +9,7 @@ struct ponto {
 struct arquivos {
   FILE* entrada;
   FILE* saida;
-  int flag;   // flag para poder retornar 0 ou 1
+  int flag;   // flag para poder retornar 0 em caso de erro
 }; typedef struct arquivos Arquivos;
 
 
@@ -18,9 +18,13 @@ int calculaTamanhoMatriz(FILE* arq);
 int** alocaMatriz(int tamanhoMatriz);
 int** leituraArqEntrada(FILE* arq, int tamanhoMatriz);
 int checkValoresMatriz(int **mat, int tamanhoMatriz);
-void imprimeArqSaida(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz);
+int verificaArqVazio(FILE* arq);
+void imprimeMatrizCompleta(FILE* arq, int** mat, int tamanhoMatriz);
+void imprimeMaiorSubMatriz(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz, int paradigma);
 void contaTempoProcessador(double *utime, double *stime);
 void imprimeTempo(double user_time, double system_time, FILE* arq);
-void liberaPonteiros(Arquivos *arq, int** mat, int tamanhoMatriz);
+void liberaMatriz(int** mat, int tamanhoMatriz);
+void liberaArquivos(Arquivos *arq);
+
 
 #endif
