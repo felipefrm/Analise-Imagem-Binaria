@@ -29,14 +29,12 @@ int forcaBruta(int **mat, int tamanhoMatriz, Ponto* inicial){
 }
 
 int submatrizPossivel(int i, int j, int **mat, int *clock, int maior, int tamanhoMatriz){
-  int range = maior + 1;    // esta atribuição poupa tempo ao nao calcular submatrizes menor do que
-  int i_range, j_range;     // a maior submatriz que o algortimo ja possui
-
-  i_range = range + i;
-  j_range = range + j;            // pega a maior submatriz possivel a partir do ponto [i][j]
+  int range = maior + 1;
+  int i_range, j_range;
+                                          // pega a maior submatriz possivel a partir do ponto [i][j]
   while (1) {
 
-    if (i_range > tamanhoMatriz || j_range > tamanhoMatriz){
+    if (range + i > tamanhoMatriz || range + j > tamanhoMatriz){
       return maior;
     }
 
