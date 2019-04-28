@@ -13,11 +13,11 @@ void main(int argc, char *argv[]){
 
     if (checkValoresMatriz(mat, tamanhoMatriz)){
 
-      int maior = 0, clock = 0;
+      int maior = 0;
       Ponto inicial, elemento;
       double utime_ant, utime_pos, stime_ant, stime_pos;
 
-      // imprimeMatrizCompleta(arq->saida, mat, tamanhoMatriz);
+      imprimeMatrizCompleta(arq->saida, mat, tamanhoMatriz);
 
       contaTempoProcessador(&utime_ant, &stime_ant);
       maior = forcaBruta(mat, tamanhoMatriz, &inicial);
@@ -26,7 +26,7 @@ void main(int argc, char *argv[]){
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
 
       contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = guloso(mat, MaiorDiagonal(mat, tamanhoMatriz, &elemento), elemento, &inicial);
+      maior = guloso(mat, maiorDiagonal(mat, tamanhoMatriz, &elemento), elemento, &inicial);
       contaTempoProcessador(&utime_pos, &stime_pos);
       imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 2);
       imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);

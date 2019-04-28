@@ -49,7 +49,7 @@ int calculaTamanhoMatriz(FILE* arq){
 
   }
   rewind(arq);
-  // printf("tamanho é esse ai: %d\n", tamanhoMatriz);
+
   return tamanhoMatriz;
 }
 
@@ -138,21 +138,21 @@ void imprimeMaiorSubMatriz(FILE* arq, int** mat, int maior, Ponto inicial, int t
 
   fprintf(arq, "Maior sub-matriz encontrada (%dx%d): \n", maior, maior);
   fprintf(arq, "Posição: [%d][%d]\n\n", inicial.x, inicial.y);
-  // 
-  // fprintf(arq, "  ");
-  // for (int i=0; i<tamanhoMatriz; i++)
-  //   fprintf(arq, "%c ", i+65);
-  // fprintf(arq, "\n");
-  // for (int i=0; i<tamanhoMatriz; i++){
-  //   fprintf(arq, "%c ", i+65);
-  //   for (int j=0; j<tamanhoMatriz; j++){
-  //     if ((i >= inicial.x && i < inicial.x + maior) && (j >= inicial.y && j < inicial.y + maior))
-  //       fprintf(arq, "%d ", mat[i][j]);
-  //     else
-  //       fprintf(arq, "  ");
-  //   }
-  //   fprintf(arq, "\n");
-  // }
+
+  fprintf(arq, "  ");
+  for (int i=0; i<tamanhoMatriz; i++)
+    fprintf(arq, "%c ", i+65);
+  fprintf(arq, "\n");
+  for (int i=0; i<tamanhoMatriz; i++){
+    fprintf(arq, "%c ", i+65);
+    for (int j=0; j<tamanhoMatriz; j++){
+      if ((i >= inicial.x && i < inicial.x + maior) && (j >= inicial.y && j < inicial.y + maior))
+        fprintf(arq, "%d ", mat[i][j]);
+      else
+        fprintf(arq, "  ");
+    }
+    fprintf(arq, "\n");
+  }
   fprintf(arq, "\n");
 }
 
