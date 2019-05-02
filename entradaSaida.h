@@ -19,12 +19,12 @@ int** alocaMatriz(int tamanhoMatriz);
 int** leituraArqEntrada(FILE* arq, int tamanhoMatriz);
 int checkValoresMatriz(int **mat, int tamanhoMatriz);
 int verificaArqVazio(FILE* arq);
-void imprimeMatrizCompleta(FILE* arq, int** mat, int tamanhoMatriz);
 void imprimeMaiorSubMatriz(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz, int paradigma);
-void contaTempoProcessador(double *utime, double *stime);
-void imprimeTempo(double user_time, double system_time, FILE* arq);
 void liberaMatriz(int** mat, int tamanhoMatriz);
 void liberaArquivos(Arquivos *arq);
 
+// funcoes auxiliares para analise de tempo
+void contaTempoProcessador(double *utime, double *stime);
+void imprimeTempo(double user_time, double system_time, FILE* arq);
 
 #endif

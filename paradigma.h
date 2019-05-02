@@ -2,6 +2,10 @@
 #ifndef PARADIGMA
 #define PARADIGMA
 
+#define FORCABRUTA 1
+#define GULOSO 2
+#define DINAMICA 3
+
 // Algoritmo Força Bruta
 int forcaBruta(int **mat, int tamanhoMatriz, Ponto* inicial);
 int submatrizPossivel(int i, int j, int **mat, int maior, int tamanhoMatriz);

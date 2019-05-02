@@ -3,10 +3,6 @@
 #include "paradigma.h"
 #include "entradaSaida.h"
 
-#define FORCABRUTA 1
-#define GULOSO 2
-#define DINAMICA 3
-
 int forcaBruta(int **mat, int tamanhoMatriz, Ponto* inicial){
   int maior = 0, sub_matriz;
   for (int i=0; i<tamanhoMatriz; i++){                          //percorre toda a matriz,

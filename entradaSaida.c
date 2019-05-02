@@ -30,7 +30,6 @@ Arquivos* argumentosEntrada(int argc, char* argv[]){
           arq->flag = 0;
           return arq;
         }
-        break;
     }
   }
   return arq;
@@ -42,7 +41,7 @@ int calculaTamanhoMatriz(FILE* arq){
   int tamanhoMatriz = 0;
   char c;
 
-  while((c = fgetc(arq)) != '\n'){
+  while((c = fgetc(arq)) != '\n' && !feof(arq)){
 
     if (c == '1' || c == '0')
       tamanhoMatriz++;
@@ -106,45 +105,27 @@ int verificaArqVazio(FILE* arq){
   return 1;      // procedimentos
 }
 
-void imprimeMatrizCompleta(FILE* arq, int** mat, int tamanhoMatriz){
-
-  fprintf(arq, "Matriz original (%dx%d): \n\n", tamanhoMatriz, tamanhoMatriz);
-  fprintf(arq, "  ");
-  for (int i=0; i<tamanhoMatriz; i++)
-    fprintf(arq, "%c ", i+65);
-  fprintf(arq, "\n");
-  for (int i=0; i<tamanhoMatriz; i++){
-    fprintf(arq, "%c ", i+65);
-    for (int j=0; j<tamanhoMatriz; j++)
-      fprintf(arq, "%d ", mat[i][j]);
-    fprintf(arq, "\n");
-  }
-  fprintf(arq, "\n");
-}
 
 void imprimeMaiorSubMatriz(FILE* arq, int** mat, int maior, Ponto inicial, int tamanhoMatriz, int paradigma){
 
-  switch (paradigma){
+  switch (paradigma){     // Imprime a identificação de qual algoritmo é a matriz imprimida
     case 1:
-      fprintf(arq, "----------- ALGORITMO DE FORÇA BRUTA ----------\n\n");
+      fprintf(arq, ">>> ALGORITMO DE FORÇA BRUTA <<<\n\n");
       break;
     case 2:
-      fprintf(arq, "----------- ALGORITMO GULOSO ----------\n\n");
+      fprintf(arq, ">>> ALGORITMO GULOSO <<<\n\n");
       break;
     case 3:
-      fprintf(arq, "----------- PROGRAMAÇÃO DINAMICA ----------\n\n");
+      fprintf(arq, ">>> PROGRAMAÇÃO DINAMICA <<<\n\n");
       break;
   }
 
-  fprintf(arq, "Maior sub-matriz encontrada (%dx%d): \n", maior, maior);
-  fprintf(arq, "Posição: [%d][%d]\n\n", inicial.x, inicial.y);
-
   fprintf(arq, "  ");
   for (int i=0; i<tamanhoMatriz; i++)
-    fprintf(arq, "%c ", i+65);
+    fprintf(arq, "%c ", i+'a');
   fprintf(arq, "\n");
   for (int i=0; i<tamanhoMatriz; i++){
-    fprintf(arq, "%c ", i+65);
+    fprintf(arq, "%c ", i+'a');
     for (int j=0; j<tamanhoMatriz; j++){
       if ((i >= inicial.x && i < inicial.x + maior) && (j >= inicial.y && j < inicial.y + maior))
         fprintf(arq, "%d ", mat[i][j]);
@@ -153,7 +134,7 @@ void imprimeMaiorSubMatriz(FILE* arq, int** mat, int maior, Ponto inicial, int t
     }
     fprintf(arq, "\n");
   }
-  fprintf(arq, "\n");
+  fprintf(arq, "\n\n");
 }
 
 void contaTempoProcessador(double *utime, double *stime){

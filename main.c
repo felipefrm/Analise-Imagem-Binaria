@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include "entradaSaida.h"
 #include "paradigma.h"
 
@@ -13,32 +12,37 @@ void main(int argc, char *argv[]){
 
     if (checkValoresMatriz(mat, tamanhoMatriz)){
 
-      int maior = 0;
+      int maior, opcao;
       Ponto inicial, elemento;
       double utime_ant, utime_pos, stime_ant, stime_pos;
 
-      imprimeMatrizCompleta(arq->saida, mat, tamanhoMatriz);
+      printf("Escolha um paradigma para ver a maior sub-matriz encontrada:\n\n"
+      "[1] Força Bruta\n[2] Guloso\n[3] Programação dinâmica\n[0] Todos os paradigmas\n\n>>> ");
+      scanf("%d", &opcao);
 
-      contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = forcaBruta(mat, tamanhoMatriz, &inicial);
-      contaTempoProcessador(&utime_pos, &stime_pos);
-      imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 1);
-      imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-
-      contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = guloso(mat, maiorDiagonal(mat, tamanhoMatriz, &elemento), elemento, &inicial);
-      contaTempoProcessador(&utime_pos, &stime_pos);
-      imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 2);
-      imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-
-      contaTempoProcessador(&utime_ant, &stime_ant);
-      maior = dinamica(mat, tamanhoMatriz, &inicial);
-      contaTempoProcessador(&utime_pos, &stime_pos);
-      imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 3);
-      imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
-
+      switch(opcao){
+          case 1:
+            maior = forcaBruta(mat, tamanhoMatriz, &inicial);
+            imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 0);
+            break;
+          case 2:
+            maior = guloso(mat, maiorDiagonal(mat, tamanhoMatriz, &elemento), elemento, &inicial);
+            imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 0);
+            break;
+          case 3:
+            maior = dinamica(mat, tamanhoMatriz, &inicial);
+            imprimeMaiorSubMatriz(arq->saida, mat, maior, inicial, tamanhoMatriz, 0);
+            break;
+          case 0:
+            imprimeMaiorSubMatriz(arq->saida, mat, forcaBruta(mat, tamanhoMatriz, &inicial), inicial, tamanhoMatriz, FORCABRUTA);
+            imprimeMaiorSubMatriz(arq->saida, mat, guloso(mat, maiorDiagonal(mat, tamanhoMatriz, &elemento), elemento, &inicial), inicial, tamanhoMatriz, GULOSO);
+            imprimeMaiorSubMatriz(arq->saida, mat, dinamica(mat, tamanhoMatriz, &inicial), inicial, tamanhoMatriz, DINAMICA);
+            break;
+          default:
+            printf("Não existe esta opção.\n");
+      }
     }
     liberaMatriz(mat, tamanhoMatriz);
+    liberaArquivos(arq);
   }
-  liberaArquivos(arq);
 }
