@@ -2,7 +2,7 @@
 
 Este trabalho consiste na implementação de diferentes tipos de algoritmos (força bruta, guloso e programação dinâmica) para auxiliar na identificação de materiais sólidos em placenta de recém nascidos, por meio da análise da imagem da placenta. 
 
-Modo de execuçao:
+Modo de execução:
 
 1. Compile o programa com o utilitário makefile:
 ```
